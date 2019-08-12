@@ -6,20 +6,23 @@
 # (c) 2019 Timothy Lin <timothy.gh.lin@gmail.com>, BSD 3-Clause License.
 #
 
-"""
-TODO:
-1. automate the LibraryClasses content of the existing INF using info from:
-     1.1 their static_library_files.lst, and
-     1.2 their $(BASE_NAME).map - 'Linker script and memory map'
-2. automate the global/local (fixed) PCD settings from the -y/-Y build log.
-"""
-
 import os
 
-DEFAULT_EDK2_TAG = 'edk2-stable201903'
+
+#DEFAULT_EDK2_TAG = 'edk2-stable201903'
+DEFAULT_EDK2_TAG = 'edk2-stable201905'
 
 CODETREE = {
-    'PciUtils'    : {
+    # edk2-libc is a new edk2 repo since edk2-stable201905. StdLib resides in this repo.
+    'edk2-libc'    : {
+        'path'          : os.path.join(os.path.expanduser('~'), '.cache', 'pug', 'edk2-libc'),
+        'source'        : {
+            'url'       : 'https://github.com/tianocore/edk2-libc.git',
+            'signature' : '6168716',   # 61687168fe02ac4d933a36c9145fdd242ac424d1 @ Apr/25/2019
+        },
+        'multiworkspace': True,
+    },
+    'UEFI-Utilities-2019'    : {
         'path'          : os.path.join(os.getcwd(), 'UEFI-Utilities-2019'),
         'source'        : {
             'url'       : 'https://github.com/fpmurphy/UEFI-Utilities-2019.git',
@@ -29,29 +32,15 @@ CODETREE = {
     }
 }
 
+
 ###################################################################################################
 
-PKG_DSC = 'MyApps/MyApps.dsc'
-MakefileContent = """
-PKG_COMMAND	=   ipug -p {}
-
-all :
-	$(PKG_COMMAND)
-
-clean :
-	$(PKG_COMMAND) clean
-
-cleanall :
-	$(PKG_COMMAND) cleanall
-
-""".format(PKG_DSC)
 
 if __name__ == '__main__':
     import sys
     sys.dont_write_bytecode = True      # To inhibit the creation of .pyc file
 
-    MakefileName = "Makefile"
-    if not os.path.exists(MakefileName):
-        print('Creating: {}'.format(MakefileName))
-        with open(MakefileName, 'w') as fout:
-            fout.write(MakefileContent)
+    PKG_DSC = 'MyApps/MyApps.dsc'
+    IPUG_CMD = 'ipug -p {0} {1}'.format(PKG_DSC, ' '.join(sys.argv[1:]))
+    print(IPUG_CMD)
+    os.system(IPUG_CMD)

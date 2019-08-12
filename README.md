@@ -22,20 +22,20 @@ UEFI-Utilities-2019.pug
 
 
 ## Tool installation for any Debian-Based Linux:
- `sudo apt update; sudo apt install nasm iasl build-essential uuid-dev; pip install ipug --user`
+- `sudo apt update; sudo apt install nasm iasl build-essential uuid-dev; pip install ipug --user`
+
 
 ## Usage: 
 1. `git clone https://github.com/timotheuslin/UEFI-Utilities-2019.pug.git`
 2. In the command console, change-directory to folder **UEFI-Utilities-2019.pug** .
-3. To initate the build environment, run `python project.py`
-4. To build the code, run `make` (Linux/Mac) or `nmake` (Windows).
+3. To build the code, run `python project.py`. <br>
     For the 1st time setup, following code trees would be automatically git-cloned:
     - the [UDK code tree](https://github.com/tianocore/edk2)
-    - the openssl repo (a recursive submodule)
+    - the openssl repo (and some other CryptoPkg's submodules maybe)
     - [Finnbarr P. Murphy's UEFI-Utilities-2019](https://github.com/fpmurphy/UEFI-Utilities-2019.git)
-5. Browse to folder **Build/MyApps** for the build results.
-6. Browse to folder **Build/Pug/Conf** for CONF_PATH setting files.
-7. Run `{make, nmake} {clean, cleanall}` to clean (all) the intermediate files.
+4. Browse to folder **Build/MyApps** for the build results.
+5. Browse to folder **Build/Pug/Conf** for CONF_PATH setting files.
+6. Run `python project.py {clean, cleanall}` to clean (all) the intermediate files.
 
 
 ## Known issues:
